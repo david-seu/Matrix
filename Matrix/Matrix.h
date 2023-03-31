@@ -14,7 +14,7 @@ private:
     TElem* values;
     int capacity = 1;
     int length = 0;
-    int resize
+    void resize(int factor = 2);
 public:
 	//constructor
 	Matrix(int nrLines, int nrCols);
