@@ -7,7 +7,14 @@ typedef int TElem;
 class Matrix {
 
 private:
-	//TODO - Representation
+    int nr_cols;
+    int nr_lines;
+	int* cols;
+    int* lines;
+    TElem* values;
+    int capacity = 1;
+    int length = 0;
+    int resize
 public:
 	//constructor
 	Matrix(int nrLines, int nrCols);

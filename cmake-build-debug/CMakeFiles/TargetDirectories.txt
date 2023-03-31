@@ -1,0 +1,3 @@
+C:/Users/seu21/OneDrive/Documente/GitHub/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir
+C:/Users/seu21/OneDrive/Documente/GitHub/Matrix/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/seu21/OneDrive/Documente/GitHub/Matrix/cmake-build-debug/CMakeFiles/rebuild_cache.dir
