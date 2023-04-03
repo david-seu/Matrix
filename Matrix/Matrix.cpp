@@ -30,7 +30,7 @@ int Matrix::nrColumns() const {
 
 
 TElem Matrix::element(int i, int j) const {
-    //Θ(cols[j+1]-cols[j])
+    //Θ(nr_lines)
     if(i>=nr_lines || j>=nr_cols || i < 0 || j < 0)
         throw invalid_argument("Invalid indexes");
 	for(int index=cols[j];index<cols[j+1];index++)
@@ -40,6 +40,23 @@ TElem Matrix::element(int i, int j) const {
 }
 
 TElem Matrix::modify(int i, int j, TElem e) {
+    /*
+     * Best case: M[i][j] != 0 and e!=0 -> Θ(nr_lines)
+     *            M[i][j] == 0 and e == 0 -> same complexity
+     *
+     * Worst case: M[i][j] == 0 and e!= 0 and resize required -> Θ(nr_lines + nr_cols + length)
+     *             M[i][j] != 0 and e == 0 and downsize required -> same complexity
+     *
+     * Average case:
+     * -4 cases: M[i][j] != 0 and e!=0 or M[i][j] == 0 and e == 0 or M[i][j] == 0 and e!= 0 or M[i][j] != 0 and e == 0
+     *
+     * The likelihood of each scenario occurring in the algorithm depends on the sparsity of the matrix and the distribution
+     * of the (i,j) positions being accessed. However, on average, we can assume that the update operation will occur more frequently
+     * than the insert operation.
+     *
+     * T(N) = 1/2(Θ(nr_lines)) + 1/2(Θ(nr_lines + nr_cols + length)) = O(nr_lines + nr_cols + length)
+     *
+     */
     if(i>=nr_lines || j>=nr_cols || i < 0 || j < 0)
         throw exception();
     int succ_i = 100000000;
@@ -59,7 +76,7 @@ TElem Matrix::modify(int i, int j, TElem e) {
                 }
                 length --;
                 if (length > 0 && length == capacity / 4)
-                    resize(1/2);
+                    downsize();
             }
             return old;
         }
@@ -95,6 +112,24 @@ void Matrix::resize(int factor) {
         lines_resize[i] = lines[i];
         values_resize[i] = values[i];
         }
+
+    delete[] lines;
+    lines = lines_resize;
+    delete[] values;
+    values = values_resize;
+}
+
+void Matrix::downsize(int factor){
+    //Θ(length)
+    capacity /= factor;
+
+    auto* lines_resize = new TElem[capacity];
+    auto* values_resize = new TElem[capacity];
+    for (int i = 0; i < length; i++)
+    {
+        lines_resize[i] = lines[i];
+        values_resize[i] = values[i];
+    }
 
     delete[] lines;
     lines = lines_resize;

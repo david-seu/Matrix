@@ -15,6 +15,8 @@ private:
     int capacity = 1;
     int length = 0;
     void resize(int factor = 2);
+    void downsize(int factor = 2);
+
 public:
 	//constructor
 	Matrix(int nrLines, int nrCols);
